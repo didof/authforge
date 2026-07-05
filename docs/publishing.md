@@ -33,7 +33,7 @@ Configure the same Trusted Publisher settings for each publishable package:
 ```txt
 Provider: GitHub Actions
 Organization or user: didof
-Repository: authforge
+Repository: aeonkey
 Workflow filename: publish.yml
 Environment name: npm-publish
 Allowed actions: npm publish

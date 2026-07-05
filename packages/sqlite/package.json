@@ -6,13 +6,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/didof/authforge.git",
+    "url": "https://github.com/didof/aeonkey.git",
     "directory": "packages/sqlite"
   },
   "bugs": {
-    "url": "https://github.com/didof/authforge/issues"
+    "url": "https://github.com/didof/aeonkey/issues"
   },
-  "homepage": "https://github.com/didof/authforge/tree/main/packages/sqlite#readme",
+  "homepage": "https://github.com/didof/aeonkey/tree/main/packages/sqlite#readme",
   "sideEffects": false,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
