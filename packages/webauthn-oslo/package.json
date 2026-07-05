@@ -1,7 +1,7 @@
 {
-  "name": "@authforge/webauthn-oslo",
+  "name": "@aeonkey/webauthn-oslo",
   "version": "0.1.0",
-  "description": "Oslo-backed WebAuthn verifier for AuthForge.",
+  "description": "Oslo-backed WebAuthn verifier for AeonKey.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -44,7 +44,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@authforge/core": "workspace:*",
+    "@aeonkey/core": "workspace:*",
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/webauthn": "^1.0.0"
   },

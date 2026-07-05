@@ -1,13 +1,13 @@
 # Express Adapter
 
-`@authforge/express` provides middleware and route helpers. It does not own user registration, login forms, or application-specific authorization.
+`@aeonkey/express` provides middleware and route helpers. It does not own user registration, login forms, or application-specific authorization.
 
 ## Session Middleware
 
 ```ts
 import express from "express";
-import { MemorySessionStore, SessionService } from "@authforge/core";
-import { createSessionMiddleware } from "@authforge/express";
+import { MemorySessionStore, SessionService } from "@aeonkey/core";
+import { createSessionMiddleware } from "@aeonkey/express";
 
 const sessions = new SessionService({
   store: new MemorySessionStore(),
@@ -22,7 +22,7 @@ The middleware validates the session cookie, refreshes it when needed, and store
 ## Router
 
 ```ts
-import { createAuthRouter } from "@authforge/express";
+import { createAuthRouter } from "@aeonkey/express";
 
 app.use("/auth", createAuthRouter({ sessions }));
 ```
@@ -41,23 +41,23 @@ Cookie-session POST routes need CSRF protection. The adapter includes a signed d
 import {
   createCsrfProtection,
   createCsrfTokenHandler,
-} from "@authforge/express";
+} from "@aeonkey/express";
 
 app.get(
   "/csrf",
   createCsrfTokenHandler({
-    secret: process.env.AUTHKIT_CSRF_SECRET!,
+    secret: process.env.AEONKEY_CSRF_SECRET!,
   }),
 );
 
 app.use(
   createCsrfProtection({
-    secret: process.env.AUTHKIT_CSRF_SECRET!,
+    secret: process.env.AEONKEY_CSRF_SECRET!,
   }),
 );
 ```
 
-Clients send the returned token in the `x-csrf-token` header and keep the `csrf` cookie. Safe methods (`GET`, `HEAD`, `OPTIONS`) are ignored by default. Set a long random `AUTHKIT_CSRF_SECRET` in production and rotate it like other application secrets.
+Clients send the returned token in the `x-csrf-token` header and keep the `csrf` cookie. Safe methods (`GET`, `HEAD`, `OPTIONS`) are ignored by default. Set a long random `AEONKEY_CSRF_SECRET` in production and rotate it like other application secrets.
 
 ## Cookie Defaults
 
@@ -85,11 +85,11 @@ Run it:
 
 ```sh
 pnpm build
-pnpm --filter @authforge/example-express start
+pnpm --filter @aeonkey/example-express start
 ```
 
 Fetch a CSRF token before POST requests:
 
 ```sh
-curl -c /tmp/authforge-cookies http://localhost:3000/csrf
+curl -c /tmp/aeonkey-cookies http://localhost:3000/csrf
 ```

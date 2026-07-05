@@ -1,18 +1,18 @@
-# @authforge/webauthn-oslo
+# @aeonkey/webauthn-oslo
 
-Oslo-backed WebAuthn verifier for AuthForge.
+Oslo-backed WebAuthn verifier for AeonKey.
 
 ## Install
 
 ```sh
-pnpm add @authforge/core @authforge/webauthn-oslo
+pnpm add @aeonkey/core @aeonkey/webauthn-oslo
 ```
 
 ## Usage
 
 ```ts
-import { WebAuthnService } from "@authforge/core";
-import { OsloWebAuthnVerifier } from "@authforge/webauthn-oslo";
+import { WebAuthnService } from "@aeonkey/core";
+import { OsloWebAuthnVerifier } from "@aeonkey/webauthn-oslo";
 
 const service = new WebAuthnService({
   relyingParty: {

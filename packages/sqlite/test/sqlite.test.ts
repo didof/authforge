@@ -9,7 +9,7 @@ import {
   TotpService,
   WebAuthnChallengeService,
   generateTotpCode,
-} from "@authforge/core";
+} from "@aeonkey/core";
 import { SqliteAuthStore, createSqliteAuthSchema } from "../src/index.js";
 
 describe("SqliteAuthStore", () => {
@@ -95,7 +95,7 @@ describe("SqliteAuthStore", () => {
     const store = createStore();
     const totp = new TotpService({
       store,
-      issuer: "AuthForge",
+      issuer: "AeonKey",
       window: 0,
     });
     const credential = await totp.createCredential({

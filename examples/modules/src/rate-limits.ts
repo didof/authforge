@@ -2,7 +2,7 @@ import {
   ExpiringTokenBucket,
   RefillingTokenBucket,
   Throttler,
-} from "@authforge/core";
+} from "@aeonkey/core";
 
 const postBucket = new RefillingTokenBucket<string>(2, 60);
 const totpBucket = new ExpiringTokenBucket<string>(2, 60 * 30);

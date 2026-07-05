@@ -1,4 +1,4 @@
-import { getSecondFactorState, type AuthUser } from "@authforge/core";
+import { getSecondFactorState, type AuthUser } from "@aeonkey/core";
 
 const user: AuthUser = {
   id: "user-123",

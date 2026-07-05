@@ -1,5 +1,5 @@
 {
-  "name": "@authforge/example-express",
+  "name": "@aeonkey/example-express",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,11 +11,11 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
-    "@authforge/argon2": "workspace:*",
-    "@authforge/core": "workspace:*",
-    "@authforge/express": "workspace:*",
-    "@authforge/sqlite": "workspace:*",
-    "@authforge/webauthn-oslo": "workspace:*",
+    "@aeonkey/argon2": "workspace:*",
+    "@aeonkey/core": "workspace:*",
+    "@aeonkey/express": "workspace:*",
+    "@aeonkey/sqlite": "workspace:*",
+    "@aeonkey/webauthn-oslo": "workspace:*",
     "better-sqlite3": "^11.10.0",
     "express": "^5.1.0"
   },

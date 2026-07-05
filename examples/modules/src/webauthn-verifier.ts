@@ -1,10 +1,10 @@
-import { OsloWebAuthnVerifier } from "@authforge/webauthn-oslo";
+import { OsloWebAuthnVerifier } from "@aeonkey/webauthn-oslo";
 import {
   MemoryWebAuthnChallengeStore,
   MemoryWebAuthnCredentialStore,
   WebAuthnChallengeService,
   WebAuthnService,
-} from "@authforge/core";
+} from "@aeonkey/core";
 
 const challengeService = new WebAuthnChallengeService({
   store: new MemoryWebAuthnChallengeStore(),
@@ -14,7 +14,7 @@ const credentialStore = new MemoryWebAuthnCredentialStore();
 const webauthn = new WebAuthnService({
   relyingParty: {
     id: "localhost",
-    name: "AuthForge Demo",
+    name: "AeonKey Demo",
     origins: ["http://localhost:3000"],
   },
   challengeService,

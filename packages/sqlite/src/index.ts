@@ -24,11 +24,11 @@ import {
   WebAuthnChallengeStore,
   WebAuthnCredentialStore,
   UserId,
-} from "@authforge/core";
+} from "@aeonkey/core";
 
 export function createSqliteAuthSchema(db: Database.Database): void {
   db.exec(`
-CREATE TABLE IF NOT EXISTS authforge_account (
+CREATE TABLE IF NOT EXISTS aeonkey_account (
   id TEXT NOT NULL PRIMARY KEY,
   email TEXT NOT NULL UNIQUE,
   username TEXT,
@@ -39,18 +39,18 @@ CREATE TABLE IF NOT EXISTS authforge_account (
   updated_at INTEGER NOT NULL
 );
 
-CREATE INDEX IF NOT EXISTS authforge_account_email_idx ON authforge_account(email);
+CREATE INDEX IF NOT EXISTS aeonkey_account_email_idx ON aeonkey_account(email);
 
-CREATE TABLE IF NOT EXISTS authforge_session (
+CREATE TABLE IF NOT EXISTS aeonkey_session (
   id TEXT NOT NULL PRIMARY KEY,
   user_id TEXT NOT NULL,
   expires_at INTEGER NOT NULL,
   two_factor_verified INTEGER NOT NULL
 );
 
-CREATE INDEX IF NOT EXISTS authforge_session_user_id_idx ON authforge_session(user_id);
+CREATE INDEX IF NOT EXISTS aeonkey_session_user_id_idx ON aeonkey_session(user_id);
 
-CREATE TABLE IF NOT EXISTS authforge_email_verification_request (
+CREATE TABLE IF NOT EXISTS aeonkey_email_verification_request (
   id TEXT NOT NULL,
   user_id TEXT NOT NULL,
   email TEXT NOT NULL,
@@ -59,10 +59,10 @@ CREATE TABLE IF NOT EXISTS authforge_email_verification_request (
   PRIMARY KEY (id, user_id)
 );
 
-CREATE INDEX IF NOT EXISTS authforge_email_verification_user_id_idx
-ON authforge_email_verification_request(user_id);
+CREATE INDEX IF NOT EXISTS aeonkey_email_verification_user_id_idx
+ON aeonkey_email_verification_request(user_id);
 
-CREATE TABLE IF NOT EXISTS authforge_password_reset_session (
+CREATE TABLE IF NOT EXISTS aeonkey_password_reset_session (
   id TEXT NOT NULL PRIMARY KEY,
   user_id TEXT NOT NULL,
   email TEXT NOT NULL,
@@ -72,26 +72,26 @@ CREATE TABLE IF NOT EXISTS authforge_password_reset_session (
   two_factor_verified INTEGER NOT NULL
 );
 
-CREATE INDEX IF NOT EXISTS authforge_password_reset_user_id_idx
-ON authforge_password_reset_session(user_id);
+CREATE INDEX IF NOT EXISTS aeonkey_password_reset_user_id_idx
+ON aeonkey_password_reset_session(user_id);
 
-CREATE TABLE IF NOT EXISTS authforge_recovery_code (
+CREATE TABLE IF NOT EXISTS aeonkey_recovery_code (
   user_id TEXT NOT NULL PRIMARY KEY,
   hash TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS authforge_totp_credential (
+CREATE TABLE IF NOT EXISTS aeonkey_totp_credential (
   user_id TEXT NOT NULL PRIMARY KEY,
   key BLOB NOT NULL,
   created_at INTEGER NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS authforge_webauthn_challenge (
+CREATE TABLE IF NOT EXISTS aeonkey_webauthn_challenge (
   challenge_hash TEXT NOT NULL PRIMARY KEY,
   expires_at INTEGER NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS authforge_webauthn_credential (
+CREATE TABLE IF NOT EXISTS aeonkey_webauthn_credential (
   id BLOB NOT NULL PRIMARY KEY,
   user_id TEXT NOT NULL,
   name TEXT NOT NULL,
@@ -101,10 +101,10 @@ CREATE TABLE IF NOT EXISTS authforge_webauthn_credential (
   created_at INTEGER NOT NULL
 );
 
-CREATE INDEX IF NOT EXISTS authforge_webauthn_credential_user_id_idx
-ON authforge_webauthn_credential(user_id);
+CREATE INDEX IF NOT EXISTS aeonkey_webauthn_credential_user_id_idx
+ON aeonkey_webauthn_credential(user_id);
 
-CREATE TABLE IF NOT EXISTS authforge_rate_limit_bucket (
+CREATE TABLE IF NOT EXISTS aeonkey_rate_limit_bucket (
   name TEXT NOT NULL,
   key TEXT NOT NULL,
   count INTEGER NOT NULL,
@@ -113,8 +113,8 @@ CREATE TABLE IF NOT EXISTS authforge_rate_limit_bucket (
   PRIMARY KEY (name, key)
 );
 
-CREATE INDEX IF NOT EXISTS authforge_rate_limit_expires_at_idx
-ON authforge_rate_limit_bucket(expires_at);
+CREATE INDEX IF NOT EXISTS aeonkey_rate_limit_expires_at_idx
+ON aeonkey_rate_limit_bucket(expires_at);
 `);
 }
 
@@ -145,7 +145,7 @@ export class SqliteAuthStore
     try {
       this.db
         .prepare(
-          "INSERT INTO authforge_account (id, email, username, password_hash, email_verified, profile, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO aeonkey_account (id, email, username, password_hash, email_verified, profile, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
         )
         .run(
           encodeUserId(account.id),
@@ -173,7 +173,7 @@ export class SqliteAuthStore
   public async getAccountById(userId: UserId): Promise<StoredAccount | null> {
     const row = this.db
       .prepare(
-        "SELECT id, email, username, password_hash, email_verified, profile, created_at, updated_at FROM authforge_account WHERE id = ?",
+        "SELECT id, email, username, password_hash, email_verified, profile, created_at, updated_at FROM aeonkey_account WHERE id = ?",
       )
       .get(encodeUserId(userId)) as AccountRow | undefined;
     return row === undefined ? null : accountFromRow(row);
@@ -184,7 +184,7 @@ export class SqliteAuthStore
   ): Promise<StoredAccount | null> {
     const row = this.db
       .prepare(
-        "SELECT id, email, username, password_hash, email_verified, profile, created_at, updated_at FROM authforge_account WHERE email = ?",
+        "SELECT id, email, username, password_hash, email_verified, profile, created_at, updated_at FROM aeonkey_account WHERE email = ?",
       )
       .get(email) as AccountRow | undefined;
     return row === undefined ? null : accountFromRow(row);
@@ -193,7 +193,7 @@ export class SqliteAuthStore
   public async updateAccount(account: StoredAccount): Promise<void> {
     this.db
       .prepare(
-        "UPDATE authforge_account SET email = ?, username = ?, password_hash = ?, email_verified = ?, profile = ?, created_at = ?, updated_at = ? WHERE id = ?",
+        "UPDATE aeonkey_account SET email = ?, username = ?, password_hash = ?, email_verified = ?, profile = ?, created_at = ?, updated_at = ? WHERE id = ?",
       )
       .run(
         account.email,
@@ -214,7 +214,7 @@ export class SqliteAuthStore
   ): Promise<void> {
     this.db
       .prepare(
-        "UPDATE authforge_account SET password_hash = ?, updated_at = ? WHERE id = ?",
+        "UPDATE aeonkey_account SET password_hash = ?, updated_at = ? WHERE id = ?",
       )
       .run(passwordHash, toUnix(updatedAt), encodeUserId(userId));
   }
@@ -226,7 +226,7 @@ export class SqliteAuthStore
   ): Promise<void> {
     this.db
       .prepare(
-        "UPDATE authforge_account SET email_verified = ?, updated_at = ? WHERE id = ?",
+        "UPDATE aeonkey_account SET email_verified = ?, updated_at = ? WHERE id = ?",
       )
       .run(boolToInt(emailVerified), toUnix(updatedAt), encodeUserId(userId));
   }
@@ -234,16 +234,16 @@ export class SqliteAuthStore
   public async getAccountFactors(userId: UserId): Promise<RegisteredFactors> {
     const encodedUserId = encodeUserId(userId);
     const totp = this.db
-      .prepare("SELECT 1 FROM authforge_totp_credential WHERE user_id = ?")
+      .prepare("SELECT 1 FROM aeonkey_totp_credential WHERE user_id = ?")
       .get(encodedUserId);
     const passkey = this.db
       .prepare(
-        "SELECT 1 FROM authforge_webauthn_credential WHERE user_id = ? AND kind = 'passkey'",
+        "SELECT 1 FROM aeonkey_webauthn_credential WHERE user_id = ? AND kind = 'passkey'",
       )
       .get(encodedUserId);
     const securityKey = this.db
       .prepare(
-        "SELECT 1 FROM authforge_webauthn_credential WHERE user_id = ? AND kind = 'security-key'",
+        "SELECT 1 FROM aeonkey_webauthn_credential WHERE user_id = ? AND kind = 'security-key'",
       )
       .get(encodedUserId);
 
@@ -257,7 +257,7 @@ export class SqliteAuthStore
   public async createSession(session: StoredSession): Promise<void> {
     this.db
       .prepare(
-        "INSERT INTO authforge_session (id, user_id, expires_at, two_factor_verified) VALUES (?, ?, ?, ?)",
+        "INSERT INTO aeonkey_session (id, user_id, expires_at, two_factor_verified) VALUES (?, ?, ?, ?)",
       )
       .run(
         session.id,
@@ -270,7 +270,7 @@ export class SqliteAuthStore
   public async getSession(sessionId: string): Promise<StoredSession | null> {
     const row = this.db
       .prepare(
-        "SELECT id, user_id, expires_at, two_factor_verified FROM authforge_session WHERE id = ?",
+        "SELECT id, user_id, expires_at, two_factor_verified FROM aeonkey_session WHERE id = ?",
       )
       .get(sessionId) as SessionRow | undefined;
     return row === undefined ? null : sessionFromRow(row);
@@ -279,7 +279,7 @@ export class SqliteAuthStore
   public async updateSession(session: StoredSession): Promise<void> {
     this.db
       .prepare(
-        "UPDATE authforge_session SET user_id = ?, expires_at = ?, two_factor_verified = ? WHERE id = ?",
+        "UPDATE aeonkey_session SET user_id = ?, expires_at = ?, two_factor_verified = ? WHERE id = ?",
       )
       .run(
         encodeUserId(session.userId),
@@ -290,12 +290,12 @@ export class SqliteAuthStore
   }
 
   public async deleteSession(sessionId: string): Promise<void> {
-    this.db.prepare("DELETE FROM authforge_session WHERE id = ?").run(sessionId);
+    this.db.prepare("DELETE FROM aeonkey_session WHERE id = ?").run(sessionId);
   }
 
   public async deleteUserSessions(userId: UserId): Promise<void> {
     this.db
-      .prepare("DELETE FROM authforge_session WHERE user_id = ?")
+      .prepare("DELETE FROM aeonkey_session WHERE user_id = ?")
       .run(encodeUserId(userId));
   }
 
@@ -304,7 +304,7 @@ export class SqliteAuthStore
   ): Promise<void> {
     this.db
       .prepare(
-        "INSERT INTO authforge_email_verification_request (id, user_id, email, code, expires_at) VALUES (?, ?, ?, ?, ?)",
+        "INSERT INTO aeonkey_email_verification_request (id, user_id, email, code, expires_at) VALUES (?, ?, ?, ?, ?)",
       )
       .run(
         request.id,
@@ -321,7 +321,7 @@ export class SqliteAuthStore
   ): Promise<StoredEmailVerificationRequest | null> {
     const row = this.db
       .prepare(
-        "SELECT id, user_id, email, code, expires_at FROM authforge_email_verification_request WHERE id = ? AND user_id = ?",
+        "SELECT id, user_id, email, code, expires_at FROM aeonkey_email_verification_request WHERE id = ? AND user_id = ?",
       )
       .get(id, encodeUserId(userId)) as EmailVerificationRow | undefined;
     return row === undefined ? null : emailVerificationFromRow(row);
@@ -333,7 +333,7 @@ export class SqliteAuthStore
   ): Promise<void> {
     this.db
       .prepare(
-        "DELETE FROM authforge_email_verification_request WHERE id = ? AND user_id = ?",
+        "DELETE FROM aeonkey_email_verification_request WHERE id = ? AND user_id = ?",
       )
       .run(id, encodeUserId(userId));
   }
@@ -343,7 +343,7 @@ export class SqliteAuthStore
   ): Promise<void> {
     this.db
       .prepare(
-        "DELETE FROM authforge_email_verification_request WHERE user_id = ?",
+        "DELETE FROM aeonkey_email_verification_request WHERE user_id = ?",
       )
       .run(encodeUserId(userId));
   }
@@ -353,7 +353,7 @@ export class SqliteAuthStore
   ): Promise<void> {
     this.db
       .prepare(
-        "INSERT INTO authforge_password_reset_session (id, user_id, email, code, expires_at, email_verified, two_factor_verified) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO aeonkey_password_reset_session (id, user_id, email, code, expires_at, email_verified, two_factor_verified) VALUES (?, ?, ?, ?, ?, ?, ?)",
       )
       .run(
         session.id,
@@ -371,7 +371,7 @@ export class SqliteAuthStore
   ): Promise<StoredPasswordResetSession | null> {
     const row = this.db
       .prepare(
-        "SELECT id, user_id, email, code, expires_at, email_verified, two_factor_verified FROM authforge_password_reset_session WHERE id = ?",
+        "SELECT id, user_id, email, code, expires_at, email_verified, two_factor_verified FROM aeonkey_password_reset_session WHERE id = ?",
       )
       .get(sessionId) as PasswordResetRow | undefined;
     return row === undefined ? null : passwordResetFromRow(row);
@@ -382,7 +382,7 @@ export class SqliteAuthStore
   ): Promise<void> {
     this.db
       .prepare(
-        "UPDATE authforge_password_reset_session SET user_id = ?, email = ?, code = ?, expires_at = ?, email_verified = ?, two_factor_verified = ? WHERE id = ?",
+        "UPDATE aeonkey_password_reset_session SET user_id = ?, email = ?, code = ?, expires_at = ?, email_verified = ?, two_factor_verified = ? WHERE id = ?",
       )
       .run(
         encodeUserId(session.userId),
@@ -397,13 +397,13 @@ export class SqliteAuthStore
 
   public async deletePasswordResetSession(sessionId: string): Promise<void> {
     this.db
-      .prepare("DELETE FROM authforge_password_reset_session WHERE id = ?")
+      .prepare("DELETE FROM aeonkey_password_reset_session WHERE id = ?")
       .run(sessionId);
   }
 
   public async deleteUserPasswordResetSessions(userId: UserId): Promise<void> {
     this.db
-      .prepare("DELETE FROM authforge_password_reset_session WHERE user_id = ?")
+      .prepare("DELETE FROM aeonkey_password_reset_session WHERE user_id = ?")
       .run(encodeUserId(userId));
   }
 
@@ -413,14 +413,14 @@ export class SqliteAuthStore
   ): Promise<void> {
     this.db
       .prepare(
-        "INSERT INTO authforge_recovery_code (user_id, hash) VALUES (?, ?) ON CONFLICT(user_id) DO UPDATE SET hash = excluded.hash",
+        "INSERT INTO aeonkey_recovery_code (user_id, hash) VALUES (?, ?) ON CONFLICT(user_id) DO UPDATE SET hash = excluded.hash",
       )
       .run(encodeUserId(userId), hash);
   }
 
   public async getRecoveryCodeHash(userId: UserId): Promise<string | null> {
     const row = this.db
-      .prepare("SELECT hash FROM authforge_recovery_code WHERE user_id = ?")
+      .prepare("SELECT hash FROM aeonkey_recovery_code WHERE user_id = ?")
       .get(encodeUserId(userId)) as RecoveryCodeRow | undefined;
     return row?.hash ?? null;
   }
@@ -431,7 +431,7 @@ export class SqliteAuthStore
     const transaction = this.db.transaction(() => {
       const result = this.db
         .prepare(
-          "UPDATE authforge_recovery_code SET hash = ? WHERE user_id = ? AND hash = ?",
+          "UPDATE aeonkey_recovery_code SET hash = ? WHERE user_id = ? AND hash = ?",
         )
         .run(input.nextHash, encodeUserId(input.userId), input.currentHash);
       if (result.changes < 1) {
@@ -440,14 +440,14 @@ export class SqliteAuthStore
       const userId = encodeUserId(input.userId);
       this.db
         .prepare(
-          "UPDATE authforge_session SET two_factor_verified = 0 WHERE user_id = ?",
+          "UPDATE aeonkey_session SET two_factor_verified = 0 WHERE user_id = ?",
         )
         .run(userId);
       this.db
-        .prepare("DELETE FROM authforge_totp_credential WHERE user_id = ?")
+        .prepare("DELETE FROM aeonkey_totp_credential WHERE user_id = ?")
         .run(userId);
       this.db
-        .prepare("DELETE FROM authforge_webauthn_credential WHERE user_id = ?")
+        .prepare("DELETE FROM aeonkey_webauthn_credential WHERE user_id = ?")
         .run(userId);
       return true;
     });
@@ -459,7 +459,7 @@ export class SqliteAuthStore
   ): Promise<void> {
     this.db
       .prepare(
-        "INSERT INTO authforge_totp_credential (user_id, key, created_at) VALUES (?, ?, ?) ON CONFLICT(user_id) DO UPDATE SET key = excluded.key, created_at = excluded.created_at",
+        "INSERT INTO aeonkey_totp_credential (user_id, key, created_at) VALUES (?, ?, ?) ON CONFLICT(user_id) DO UPDATE SET key = excluded.key, created_at = excluded.created_at",
       )
       .run(
         encodeUserId(credential.userId),
@@ -473,7 +473,7 @@ export class SqliteAuthStore
   ): Promise<StoredTotpCredential | null> {
     const row = this.db
       .prepare(
-        "SELECT user_id, key, created_at FROM authforge_totp_credential WHERE user_id = ?",
+        "SELECT user_id, key, created_at FROM aeonkey_totp_credential WHERE user_id = ?",
       )
       .get(encodeUserId(userId)) as TotpRow | undefined;
     return row === undefined ? null : totpFromRow(row);
@@ -481,7 +481,7 @@ export class SqliteAuthStore
 
   public async deleteTotpCredential(userId: UserId): Promise<void> {
     this.db
-      .prepare("DELETE FROM authforge_totp_credential WHERE user_id = ?")
+      .prepare("DELETE FROM aeonkey_totp_credential WHERE user_id = ?")
       .run(encodeUserId(userId));
   }
 
@@ -490,7 +490,7 @@ export class SqliteAuthStore
   ): Promise<void> {
     this.db
       .prepare(
-        "INSERT INTO authforge_webauthn_challenge (challenge_hash, expires_at) VALUES (?, ?)",
+        "INSERT INTO aeonkey_webauthn_challenge (challenge_hash, expires_at) VALUES (?, ?)",
       )
       .run(challenge.challengeHash, toUnix(challenge.expiresAt));
   }
@@ -502,7 +502,7 @@ export class SqliteAuthStore
     const transaction = this.db.transaction(() => {
       const row = this.db
         .prepare(
-          "SELECT challenge_hash, expires_at FROM authforge_webauthn_challenge WHERE challenge_hash = ?",
+          "SELECT challenge_hash, expires_at FROM aeonkey_webauthn_challenge WHERE challenge_hash = ?",
         )
         .get(challengeHash) as ChallengeRow | undefined;
       if (
@@ -511,14 +511,14 @@ export class SqliteAuthStore
       ) {
         this.db
           .prepare(
-            "DELETE FROM authforge_webauthn_challenge WHERE challenge_hash = ?",
+            "DELETE FROM aeonkey_webauthn_challenge WHERE challenge_hash = ?",
           )
           .run(challengeHash);
         return false;
       }
       this.db
         .prepare(
-          "DELETE FROM authforge_webauthn_challenge WHERE challenge_hash = ?",
+          "DELETE FROM aeonkey_webauthn_challenge WHERE challenge_hash = ?",
         )
         .run(challengeHash);
       return true;
@@ -528,7 +528,7 @@ export class SqliteAuthStore
 
   public async deleteExpiredChallenges(now: Date): Promise<void> {
     this.db
-      .prepare("DELETE FROM authforge_webauthn_challenge WHERE expires_at <= ?")
+      .prepare("DELETE FROM aeonkey_webauthn_challenge WHERE expires_at <= ?")
       .run(toUnix(now));
   }
 
@@ -537,7 +537,7 @@ export class SqliteAuthStore
   ): Promise<void> {
     this.db
       .prepare(
-        "INSERT INTO authforge_webauthn_credential (id, user_id, name, algorithm_id, public_key, kind, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO aeonkey_webauthn_credential (id, user_id, name, algorithm_id, public_key, kind, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
       )
       .run(
         Buffer.from(credential.id),
@@ -555,7 +555,7 @@ export class SqliteAuthStore
   ): Promise<StoredWebAuthnCredential | null> {
     const row = this.db
       .prepare(
-        "SELECT id, user_id, name, algorithm_id, public_key, kind, created_at FROM authforge_webauthn_credential WHERE id = ?",
+        "SELECT id, user_id, name, algorithm_id, public_key, kind, created_at FROM aeonkey_webauthn_credential WHERE id = ?",
       )
       .get(Buffer.from(id)) as WebAuthnCredentialRow | undefined;
     return row === undefined ? null : webAuthnCredentialFromRow(row);
@@ -567,7 +567,7 @@ export class SqliteAuthStore
   ): Promise<StoredWebAuthnCredential | null> {
     const row = this.db
       .prepare(
-        "SELECT id, user_id, name, algorithm_id, public_key, kind, created_at FROM authforge_webauthn_credential WHERE id = ? AND user_id = ?",
+        "SELECT id, user_id, name, algorithm_id, public_key, kind, created_at FROM aeonkey_webauthn_credential WHERE id = ? AND user_id = ?",
       )
       .get(Buffer.from(id), encodeUserId(userId)) as
       WebAuthnCredentialRow | undefined;
@@ -582,12 +582,12 @@ export class SqliteAuthStore
       kind === undefined
         ? (this.db
             .prepare(
-              "SELECT id, user_id, name, algorithm_id, public_key, kind, created_at FROM authforge_webauthn_credential WHERE user_id = ?",
+              "SELECT id, user_id, name, algorithm_id, public_key, kind, created_at FROM aeonkey_webauthn_credential WHERE user_id = ?",
             )
             .all(encodeUserId(userId)) as WebAuthnCredentialRow[])
         : (this.db
             .prepare(
-              "SELECT id, user_id, name, algorithm_id, public_key, kind, created_at FROM authforge_webauthn_credential WHERE user_id = ? AND kind = ?",
+              "SELECT id, user_id, name, algorithm_id, public_key, kind, created_at FROM aeonkey_webauthn_credential WHERE user_id = ? AND kind = ?",
             )
             .all(encodeUserId(userId), kind) as WebAuthnCredentialRow[]);
     return rows.map(webAuthnCredentialFromRow);
@@ -599,7 +599,7 @@ export class SqliteAuthStore
   ): Promise<boolean> {
     const result = this.db
       .prepare(
-        "DELETE FROM authforge_webauthn_credential WHERE user_id = ? AND id = ?",
+        "DELETE FROM aeonkey_webauthn_credential WHERE user_id = ? AND id = ?",
       )
       .run(encodeUserId(userId), Buffer.from(id));
     return result.changes > 0;
@@ -611,7 +611,7 @@ export class SqliteAuthStore
   ): Promise<StoredRateLimitBucket | null> {
     const row = this.db
       .prepare(
-        "SELECT name, key, count, updated_at, expires_at FROM authforge_rate_limit_bucket WHERE name = ? AND key = ?",
+        "SELECT name, key, count, updated_at, expires_at FROM aeonkey_rate_limit_bucket WHERE name = ? AND key = ?",
       )
       .get(name, key) as RateLimitBucketRow | undefined;
     return row === undefined ? null : rateLimitBucketFromRow(row);
@@ -622,7 +622,7 @@ export class SqliteAuthStore
   ): Promise<void> {
     this.db
       .prepare(
-        "INSERT INTO authforge_rate_limit_bucket (name, key, count, updated_at, expires_at) VALUES (?, ?, ?, ?, ?) ON CONFLICT(name, key) DO UPDATE SET count = excluded.count, updated_at = excluded.updated_at, expires_at = excluded.expires_at",
+        "INSERT INTO aeonkey_rate_limit_bucket (name, key, count, updated_at, expires_at) VALUES (?, ?, ?, ?, ?) ON CONFLICT(name, key) DO UPDATE SET count = excluded.count, updated_at = excluded.updated_at, expires_at = excluded.expires_at",
       )
       .run(
         bucket.name,
@@ -639,21 +639,21 @@ export class SqliteAuthStore
   ): Promise<void> {
     this.db
       .prepare(
-        "DELETE FROM authforge_rate_limit_bucket WHERE name = ? AND key = ?",
+        "DELETE FROM aeonkey_rate_limit_bucket WHERE name = ? AND key = ?",
       )
       .run(name, key);
   }
 
   public async deleteExpiredRateLimitBuckets(now: Date): Promise<void> {
     this.db
-      .prepare("DELETE FROM authforge_rate_limit_bucket WHERE expires_at <= ?")
+      .prepare("DELETE FROM aeonkey_rate_limit_bucket WHERE expires_at <= ?")
       .run(toUnix(now));
   }
 
   private async getRequiredAccountRow(userId: UserId): Promise<AccountRow> {
     const row = this.db
       .prepare(
-        "SELECT id, email, username, password_hash, email_verified, profile, created_at, updated_at FROM authforge_account WHERE id = ?",
+        "SELECT id, email, username, password_hash, email_verified, profile, created_at, updated_at FROM aeonkey_account WHERE id = ?",
       )
       .get(encodeUserId(userId)) as AccountRow | undefined;
     if (row === undefined) {

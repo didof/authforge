@@ -1,7 +1,7 @@
 {
-  "name": "@authforge/express",
+  "name": "@aeonkey/express",
   "version": "0.1.0",
-  "description": "Express adapter for AuthForge.",
+  "description": "Express adapter for AeonKey.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -45,7 +45,7 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
-    "@authforge/core": "workspace:*"
+    "@aeonkey/core": "workspace:*"
   },
   "peerDependencies": {
     "express": "^5.0.0"

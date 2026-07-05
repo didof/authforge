@@ -1,5 +1,5 @@
 {
-  "name": "@authforge/core",
+  "name": "@aeonkey/core",
   "version": "0.1.0",
   "description": "Framework-free authentication primitives for TypeScript applications.",
   "type": "module",

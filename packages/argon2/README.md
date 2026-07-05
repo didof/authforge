@@ -1,17 +1,17 @@
-# @authforge/argon2
+# @aeonkey/argon2
 
-Argon2 password hasher for AuthForge on Node.js.
+Argon2 password hasher for AeonKey on Node.js.
 
 ## Install
 
 ```sh
-pnpm add @authforge/argon2
+pnpm add @aeonkey/argon2
 ```
 
 ## Usage
 
 ```ts
-import { Argon2PasswordHasher } from "@authforge/argon2";
+import { Argon2PasswordHasher } from "@aeonkey/argon2";
 
 const hasher = new Argon2PasswordHasher();
 const hash = await hasher.hash("password");

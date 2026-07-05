@@ -1,19 +1,19 @@
-# @authforge/sqlite
+# @aeonkey/sqlite
 
-SQLite storage adapter for AuthForge.
+SQLite storage adapter for AeonKey.
 
 ## Install
 
 ```sh
-pnpm add @authforge/core @authforge/sqlite better-sqlite3
+pnpm add @aeonkey/core @aeonkey/sqlite better-sqlite3
 ```
 
 ## Usage
 
 ```ts
 import Database from "better-sqlite3";
-import { SessionService } from "@authforge/core";
-import { SqliteAuthStore, createSqliteAuthSchema } from "@authforge/sqlite";
+import { SessionService } from "@aeonkey/core";
+import { SqliteAuthStore, createSqliteAuthSchema } from "@aeonkey/sqlite";
 
 const db = new Database("auth.db");
 createSqliteAuthSchema(db);
@@ -22,7 +22,7 @@ const store = new SqliteAuthStore(db);
 const sessions = new SessionService({ store });
 ```
 
-The store implements the durable AuthForge contracts for:
+The store implements the durable AeonKey contracts for:
 
 - accounts
 - sessions

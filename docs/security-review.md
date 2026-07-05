@@ -26,4 +26,4 @@ Date: July 5, 2026
 - WebAuthn positive-path fixtures are not committed yet. The verifier has invalid-input tests, but complete authenticator conformance needs deterministic raw registration/assertion fixtures.
 - The SQLite schema helper is a reference schema. Production applications should own migrations.
 - Email delivery in the demo is console-only.
-- Login timing and user-enumeration policy are application decisions; AuthForge exposes primitives but does not force one global policy.
+- Login timing and user-enumeration policy are application decisions; AeonKey exposes primitives but does not force one global policy.

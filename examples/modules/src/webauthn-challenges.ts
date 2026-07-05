@@ -1,7 +1,7 @@
 import {
   MemoryWebAuthnChallengeStore,
   WebAuthnChallengeService,
-} from "@authforge/core";
+} from "@aeonkey/core";
 
 const challenges = new WebAuthnChallengeService({
   store: new MemoryWebAuthnChallengeStore(),

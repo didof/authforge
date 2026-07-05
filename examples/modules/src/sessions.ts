@@ -1,4 +1,4 @@
-import { MemorySessionStore, SessionService } from "@authforge/core";
+import { MemorySessionStore, SessionService } from "@aeonkey/core";
 
 const sessions = new SessionService({
   store: new MemorySessionStore(),

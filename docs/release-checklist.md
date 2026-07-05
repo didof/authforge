@@ -26,8 +26,8 @@
 - [x] `pnpm run verify:release` passed end to end on July 5, 2026.
 - [x] Express demo smoke test passed on July 5, 2026: `GET /csrf`, `POST /signup`, `GET /auth/session`, and `POST /auth/webauthn/challenge`.
 - [x] Package tarballs include `README.md` and `LICENSE`.
-- [x] npm registry returned 404 for `@authforge/core`, `@authforge/argon2`, and `@authforge/express` on July 5, 2026.
-- [x] npm registry returned 404 for `@authforge/sqlite` and `@authforge/webauthn-oslo` on July 5, 2026.
+- [x] npm registry returned 404 for `@aeonkey/core`, `@aeonkey/argon2`, and `@aeonkey/express` on July 5, 2026.
+- [x] npm registry returned 404 for `@aeonkey/sqlite` and `@aeonkey/webauthn-oslo` on July 5, 2026.
 
 ## Not Yet 0.1.0
 

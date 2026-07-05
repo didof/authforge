@@ -1,5 +1,5 @@
-import { Argon2PasswordHasher } from "@authforge/argon2";
-import { MemoryRecoveryCodeStore, RecoveryCodeService } from "@authforge/core";
+import { Argon2PasswordHasher } from "@aeonkey/argon2";
+import { MemoryRecoveryCodeStore, RecoveryCodeService } from "@aeonkey/core";
 
 const recoveryCodes = new RecoveryCodeService({
   store: new MemoryRecoveryCodeStore(),

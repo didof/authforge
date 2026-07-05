@@ -26,19 +26,19 @@ importers:
 
   examples/express:
     dependencies:
-      '@authforge/argon2':
+      '@aeonkey/argon2':
         specifier: workspace:*
         version: link:../../packages/argon2
-      '@authforge/core':
+      '@aeonkey/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@authforge/express':
+      '@aeonkey/express':
         specifier: workspace:*
         version: link:../../packages/express
-      '@authforge/sqlite':
+      '@aeonkey/sqlite':
         specifier: workspace:*
         version: link:../../packages/sqlite
-      '@authforge/webauthn-oslo':
+      '@aeonkey/webauthn-oslo':
         specifier: workspace:*
         version: link:../../packages/webauthn-oslo
       better-sqlite3:
@@ -66,16 +66,16 @@ importers:
 
   examples/modules:
     dependencies:
-      '@authforge/argon2':
+      '@aeonkey/argon2':
         specifier: workspace:*
         version: link:../../packages/argon2
-      '@authforge/core':
+      '@aeonkey/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@authforge/sqlite':
+      '@aeonkey/sqlite':
         specifier: workspace:*
         version: link:../../packages/sqlite
-      '@authforge/webauthn-oslo':
+      '@aeonkey/webauthn-oslo':
         specifier: workspace:*
         version: link:../../packages/webauthn-oslo
       better-sqlite3:
@@ -97,7 +97,7 @@ importers:
 
   packages/argon2:
     dependencies:
-      '@authforge/core':
+      '@aeonkey/core':
         specifier: workspace:*
         version: link:../core
       '@node-rs/argon2':
@@ -122,7 +122,7 @@ importers:
 
   packages/express:
     dependencies:
-      '@authforge/core':
+      '@aeonkey/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -141,7 +141,7 @@ importers:
 
   packages/sqlite:
     dependencies:
-      '@authforge/core':
+      '@aeonkey/core':
         specifier: workspace:*
         version: link:../core
       better-sqlite3:
@@ -160,7 +160,7 @@ importers:
 
   packages/webauthn-oslo:
     dependencies:
-      '@authforge/core':
+      '@aeonkey/core':
         specifier: workspace:*
         version: link:../core
       '@oslojs/crypto':

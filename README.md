@@ -1,6 +1,6 @@
-# AuthForge
+# AeonKey
 
-AuthForge is a TypeScript authentication toolkit inspired by the architecture of the Lucia email/password, 2FA, and WebAuthn demo.
+AeonKey is a TypeScript authentication toolkit inspired by the architecture of the Lucia email/password, 2FA, and WebAuthn demo.
 
 The goal is to provide framework-agnostic auth primitives first, then thin adapters for Express, Next.js, SvelteKit, Astro, and other HTTP frameworks.
 
@@ -39,10 +39,10 @@ This repository is being shaped toward a first public release. APIs are expected
 
 ## Current implementation
 
-- `@authforge/core`
+- `@aeonkey/core`
   - Session tokens, hashing, rotation, invalidation
   - Account model and account store contract
-  - High-level `AuthForgeService` for signup, login, verification, reset, TOTP, recovery code, and WebAuthn flows
+  - High-level `AeonKeyService` for signup, login, verification, reset, TOTP, recovery code, and WebAuthn flows
   - Email verification request lifecycle
   - Password reset session lifecycle
   - TOTP credential lifecycle
@@ -51,16 +51,16 @@ This repository is being shaped toward a first public release. APIs are expected
   - 2FA method selection
   - WebAuthn challenge and credential contracts
   - Development memory stores
-- `@authforge/argon2`
+- `@aeonkey/argon2`
   - Node.js Argon2 password hasher
-- `@authforge/express`
+- `@aeonkey/express`
   - Session middleware
   - Cookie helpers
   - Signed double-submit CSRF helpers
   - Auth router with session, logout, and WebAuthn challenge endpoints
-- `@authforge/sqlite`
+- `@aeonkey/sqlite`
   - Durable SQLite implementation for accounts, sessions, verification, reset, TOTP, recovery codes, WebAuthn, and rate-limit buckets
-- `@authforge/webauthn-oslo`
+- `@aeonkey/webauthn-oslo`
   - WebAuthn registration/assertion verifier implementation
 - `examples/express`
   - SQLite-backed server with signup, login, logout, session status, console email verification, console password reset, TOTP, recovery codes, WebAuthn wiring, CSRF, and durable rate limits
@@ -78,13 +78,13 @@ Run the Express demo:
 
 ```sh
 pnpm build
-pnpm --filter @authforge/example-express start
+pnpm --filter @aeonkey/example-express start
 ```
 
 Fetch a CSRF token before POST requests:
 
 ```sh
-curl -c /tmp/authforge-cookies http://localhost:3000/csrf
+curl -c /tmp/aeonkey-cookies http://localhost:3000/csrf
 ```
 
 The Express demo prints email verification and password reset codes to the server console. It does not require third-party email, OAuth, or passkey services.

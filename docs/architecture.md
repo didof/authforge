@@ -1,6 +1,6 @@
 # Architecture
 
-AuthForge is split into a framework-free core and small adapters.
+AeonKey is split into a framework-free core and small adapters.
 
 ## Core
 

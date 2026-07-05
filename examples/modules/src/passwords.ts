@@ -1,5 +1,5 @@
-import { Argon2PasswordHasher } from "@authforge/argon2";
-import { checkPasswordStrength } from "@authforge/core";
+import { Argon2PasswordHasher } from "@aeonkey/argon2";
+import { checkPasswordStrength } from "@aeonkey/core";
 
 const password = "correct horse battery staple";
 const strength = await checkPasswordStrength(password);

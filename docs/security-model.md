@@ -1,6 +1,6 @@
 # Security Model
 
-AuthForge provides authentication building blocks. It is not an identity provider and it does not replace application-specific authorization.
+AeonKey provides authentication building blocks. It is not an identity provider and it does not replace application-specific authorization.
 
 ## Defaults
 

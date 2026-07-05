@@ -1,4 +1,4 @@
-import { MemoryPasswordResetStore, PasswordResetService } from "@authforge/core";
+import { MemoryPasswordResetStore, PasswordResetService } from "@aeonkey/core";
 
 const passwordReset = new PasswordResetService({
   store: new MemoryPasswordResetStore(),

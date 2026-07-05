@@ -1,5 +1,5 @@
 import { hash, verify } from "@node-rs/argon2";
-import type { PasswordHasher } from "@authforge/core";
+import type { PasswordHasher } from "@aeonkey/core";
 
 export interface Argon2PasswordHasherOptions {
   memoryCost?: number;

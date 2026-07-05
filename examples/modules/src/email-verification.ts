@@ -1,7 +1,7 @@
 import {
   EmailVerificationService,
   MemoryEmailVerificationStore,
-} from "@authforge/core";
+} from "@aeonkey/core";
 
 const emailVerification = new EmailVerificationService({
   store: new MemoryEmailVerificationStore(),

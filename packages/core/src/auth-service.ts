@@ -60,7 +60,7 @@ import {
   type UserId,
 } from "./types.js";
 
-export interface AuthForgeServiceOptions {
+export interface AeonKeyServiceOptions {
   accounts: AccountStore;
   sessions: SessionService;
   passwordHasher: PasswordHasher;
@@ -196,7 +196,7 @@ export type WebAuthnFlowError =
   | "account_not_found"
   | "service_unavailable";
 
-export class AuthForgeService {
+export class AeonKeyService {
   private readonly accounts: AccountStore;
   private readonly sessions: SessionService;
   private readonly passwordHasher: PasswordHasher;
@@ -210,7 +210,7 @@ export class AuthForgeService {
   private readonly accountIdGenerator: () => UserId;
   private readonly passwordPolicy: PasswordPolicy | undefined;
 
-  constructor(options: AuthForgeServiceOptions) {
+  constructor(options: AeonKeyServiceOptions) {
     this.accounts = options.accounts;
     this.sessions = options.sessions;
     this.passwordHasher = options.passwordHasher;

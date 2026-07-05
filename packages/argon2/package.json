@@ -1,7 +1,7 @@
 {
-  "name": "@authforge/argon2",
+  "name": "@aeonkey/argon2",
   "version": "0.1.0",
-  "description": "Argon2 password hasher for AuthForge on Node.js.",
+  "description": "Argon2 password hasher for AeonKey on Node.js.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -44,7 +44,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@authforge/core": "workspace:*",
+    "@aeonkey/core": "workspace:*",
     "@node-rs/argon2": "^2.0.2"
   },
   "devDependencies": {

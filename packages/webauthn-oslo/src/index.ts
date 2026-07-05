@@ -9,7 +9,7 @@ import {
   type VerifiedWebAuthnRegistration,
   err,
   ok,
-} from "@authforge/core";
+} from "@aeonkey/core";
 import {
   AttestationStatementFormat,
   ClientDataType,

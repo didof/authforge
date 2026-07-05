@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
-  AuthForgeService,
+  AeonKeyService,
   EmailVerificationService,
   EncryptedTotpCredentialStore,
   ExpiringTokenBucket,
@@ -51,7 +51,7 @@ class TestPasswordHasher implements PasswordHasher {
   }
 }
 
-function createTestAuthForge(clock = new MutableClock(new Date("2026-01-01T00:00:00.000Z"))) {
+function createTestAeonKey(clock = new MutableClock(new Date("2026-01-01T00:00:00.000Z"))) {
   const stores = createMemoryAuthStores();
   const sessions = new SessionService({ store: stores.sessions, clock });
   const emailVerification = new EmailVerificationService({
@@ -64,7 +64,7 @@ function createTestAuthForge(clock = new MutableClock(new Date("2026-01-01T00:00
   });
   const totp = new TotpService({
     store: stores.totpCredentials,
-    issuer: "AuthForge",
+    issuer: "AeonKey",
     clock,
     window: 0,
   });
@@ -72,7 +72,7 @@ function createTestAuthForge(clock = new MutableClock(new Date("2026-01-01T00:00
     store: stores.recoveryCodes,
     hasher: new TestPasswordHasher(),
   });
-  const auth = new AuthForgeService({
+  const auth = new AeonKeyService({
     accounts: stores.accounts,
     sessions,
     passwordHasher: new TestPasswordHasher(),
@@ -86,9 +86,9 @@ function createTestAuthForge(clock = new MutableClock(new Date("2026-01-01T00:00
   return { auth, clock, emailVerification, passwordReset, sessions, stores, totp };
 }
 
-describe("AuthForgeService", () => {
+describe("AeonKeyService", () => {
   it("signs up password accounts and rejects duplicate email addresses", async () => {
-    const { auth, stores } = createTestAuthForge();
+    const { auth, stores } = createTestAeonKey();
 
     const signup = await auth.signupWithPassword({
       email: "USER@example.com",
@@ -116,7 +116,7 @@ describe("AuthForgeService", () => {
   });
 
   it("logs in with password and marks sessions as requiring 2FA when factors exist", async () => {
-    const { auth, clock } = createTestAuthForge();
+    const { auth, clock } = createTestAeonKey();
     const signup = await auth.signupWithPassword({
       email: "user@example.com",
       password: "correct horse battery staple",
@@ -166,7 +166,7 @@ describe("AuthForgeService", () => {
   });
 
   it("starts and completes email verification", async () => {
-    const { auth, stores } = createTestAuthForge();
+    const { auth, stores } = createTestAeonKey();
     await auth.signupWithPassword({
       email: "user@example.com",
       password: "correct horse battery staple",
@@ -188,7 +188,7 @@ describe("AuthForgeService", () => {
   });
 
   it("completes password reset and invalidates old sessions", async () => {
-    const { auth, stores } = createTestAuthForge();
+    const { auth, stores } = createTestAeonKey();
     const signup = await auth.signupWithPassword({
       email: "user@example.com",
       password: "correct horse battery staple",
@@ -329,7 +329,7 @@ describe("TotpService", () => {
     );
     const service = new TotpService({
       store: stores.totpCredentials,
-      issuer: "AuthForge",
+      issuer: "AeonKey",
       clock,
       window: 0,
     });
@@ -361,7 +361,7 @@ describe("TotpService", () => {
     });
     const service = new TotpService({
       store: encryptedStore,
-      issuer: "AuthForge",
+      issuer: "AeonKey",
       window: 0,
     });
     const created = await service.createCredential({

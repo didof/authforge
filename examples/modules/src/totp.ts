@@ -2,11 +2,11 @@ import {
   MemoryTotpCredentialStore,
   TotpService,
   generateTotpCode,
-} from "@authforge/core";
+} from "@aeonkey/core";
 
 const totp = new TotpService({
   store: new MemoryTotpCredentialStore(),
-  issuer: "AuthForge Demo",
+  issuer: "AeonKey Demo",
   window: 0,
 });
 

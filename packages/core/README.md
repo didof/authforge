@@ -1,17 +1,17 @@
-# @authforge/core
+# @aeonkey/core
 
 Framework-free authentication primitives for TypeScript applications.
 
 ## Install
 
 ```sh
-pnpm add @authforge/core
+pnpm add @aeonkey/core
 ```
 
 ## Includes
 
 - Account store contracts
-- `AuthForgeService` high-level signup, login, verification, reset, TOTP, recovery-code, and WebAuthn flow helpers
+- `AeonKeyService` high-level signup, login, verification, reset, TOTP, recovery-code, and WebAuthn flow helpers
 - Sessions
 - Email verification
 - Password reset sessions

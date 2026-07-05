@@ -3,7 +3,7 @@ import {
   createMemoryAuthStores,
   WebAuthnChallengeService,
   systemClock,
-} from "@authforge/core";
+} from "@aeonkey/core";
 import { OsloWebAuthnVerifier } from "../src/index.js";
 
 describe("OsloWebAuthnVerifier", () => {
@@ -24,7 +24,7 @@ describe("OsloWebAuthnVerifier", () => {
       {
         relyingParty: {
           id: "localhost",
-          name: "AuthForge",
+          name: "AeonKey",
           origins: ["http://localhost:3000"],
         },
         challengeService,

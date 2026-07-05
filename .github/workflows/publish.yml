@@ -64,8 +64,8 @@ jobs:
             npm publish "${tarball}" --access public
           }
 
-          publish_if_needed "@authforge/core" "./artifacts/authforge-core-${VERSION}.tgz"
-          publish_if_needed "@authforge/argon2" "./artifacts/authforge-argon2-${VERSION}.tgz"
-          publish_if_needed "@authforge/sqlite" "./artifacts/authforge-sqlite-${VERSION}.tgz"
-          publish_if_needed "@authforge/webauthn-oslo" "./artifacts/authforge-webauthn-oslo-${VERSION}.tgz"
-          publish_if_needed "@authforge/express" "./artifacts/authforge-express-${VERSION}.tgz"
+          publish_if_needed "@aeonkey/core" "./artifacts/aeonkey-core-${VERSION}.tgz"
+          publish_if_needed "@aeonkey/argon2" "./artifacts/aeonkey-argon2-${VERSION}.tgz"
+          publish_if_needed "@aeonkey/sqlite" "./artifacts/aeonkey-sqlite-${VERSION}.tgz"
+          publish_if_needed "@aeonkey/webauthn-oslo" "./artifacts/aeonkey-webauthn-oslo-${VERSION}.tgz"
+          publish_if_needed "@aeonkey/express" "./artifacts/aeonkey-express-${VERSION}.tgz"

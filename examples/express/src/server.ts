@@ -5,7 +5,7 @@ import express, {
   type Response,
 } from "express";
 import {
-  AuthForgeService,
+  AeonKeyService,
   EmailVerificationService,
   PasswordResetService,
   PersistentRefillingTokenBucket,
@@ -18,13 +18,13 @@ import {
   type CompletePasswordResetInput,
   type SignupWithPasswordInput,
   type VerifyWebAuthnAssertionInput,
-} from "@authforge/core";
-import { Argon2PasswordHasher } from "@authforge/argon2";
+} from "@aeonkey/core";
+import { Argon2PasswordHasher } from "@aeonkey/argon2";
 import {
   createSqliteAuthSchema,
   SqliteAuthStore,
-} from "@authforge/sqlite";
-import { OsloWebAuthnVerifier } from "@authforge/webauthn-oslo";
+} from "@aeonkey/sqlite";
+import { OsloWebAuthnVerifier } from "@aeonkey/webauthn-oslo";
 import {
   clearAuthCookie,
   createAuthRouter,
@@ -33,13 +33,13 @@ import {
   createSessionMiddleware,
   getAuthSession,
   setCreatedSessionCookie,
-} from "@authforge/express";
+} from "@aeonkey/express";
 
 const port = Number(process.env.PORT ?? 3000);
 const host = process.env.HOST ?? "127.0.0.1";
-const databasePath = process.env.AUTHKIT_EXAMPLE_DB ?? "authforge-example.sqlite";
+const databasePath = process.env.AEONKEY_EXAMPLE_DB ?? "aeonkey-example.sqlite";
 const csrfSecret =
-  process.env.AUTHKIT_CSRF_SECRET ??
+  process.env.AEONKEY_CSRF_SECRET ??
   "local-development-csrf-secret-change-before-production";
 const cookie = {
   secure: false,
@@ -56,7 +56,7 @@ const emailVerification = new EmailVerificationService({ store });
 const passwordReset = new PasswordResetService({ store });
 const totp = new TotpService({
   store,
-  issuer: "AuthForge Express Demo",
+  issuer: "AeonKey Express Demo",
 });
 const recoveryCodes = new RecoveryCodeService({
   store,
@@ -66,7 +66,7 @@ const webAuthnChallenges = new WebAuthnChallengeService({ store });
 const webAuthn = new WebAuthnService({
   relyingParty: {
     id: "localhost",
-    name: "AuthForge Express Demo",
+    name: "AeonKey Express Demo",
     origins: [`http://${host}:${port}`, `http://localhost:${port}`],
   },
   challengeService: webAuthnChallenges,
@@ -75,7 +75,7 @@ const webAuthn = new WebAuthnService({
     requireUserVerificationForRegistration: false,
   }),
 });
-const auth = new AuthForgeService({
+const auth = new AeonKeyService({
   accounts: store,
   sessions,
   passwordHasher,
@@ -121,7 +121,7 @@ app.use(
 
 app.get("/", (_req, res) => {
   res.json({
-    name: "AuthForge Express SQLite demo",
+    name: "AeonKey Express SQLite demo",
     databasePath,
     routes: {
       csrf: "GET /csrf",
@@ -493,7 +493,7 @@ app.post("/webauthn/assert", async (req, res) => {
 app.use(errorHandler);
 
 app.listen(port, host, () => {
-  console.log(`AuthForge Express demo listening on http://${host}:${port}`);
+  console.log(`AeonKey Express demo listening on http://${host}:${port}`);
   console.log(`SQLite database: ${databasePath}`);
   console.log("Fetch a CSRF token from GET /csrf before POST requests.");
 });
@@ -565,7 +565,7 @@ function logEmailVerification(request: {
   id: string;
   code: string;
 }): void {
-  console.log("[AuthForge demo email verification]");
+  console.log("[AeonKey demo email verification]");
   console.log(`email=${request.email}`);
   console.log(`requestId=${request.id}`);
   console.log(`code=${request.code}`);
@@ -575,7 +575,7 @@ function logPasswordReset(reset: {
   token: string;
   session: { email: string; code: string };
 }): void {
-  console.log("[AuthForge demo password reset]");
+  console.log("[AeonKey demo password reset]");
   console.log(`email=${reset.session.email}`);
   console.log(`token=${reset.token}`);
   console.log(`emailCode=${reset.session.code}`);

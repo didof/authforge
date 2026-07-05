@@ -1,7 +1,7 @@
 {
-  "name": "@authforge/sqlite",
+  "name": "@aeonkey/sqlite",
   "version": "0.1.0",
-  "description": "SQLite storage adapter for AuthForge.",
+  "description": "SQLite storage adapter for AeonKey.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -44,7 +44,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@authforge/core": "workspace:*",
+    "@aeonkey/core": "workspace:*",
     "better-sqlite3": "^11.10.0"
   },
   "devDependencies": {

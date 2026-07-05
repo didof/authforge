@@ -2,13 +2,13 @@
 
 The publishable packages are:
 
-- `@authforge/core`
-- `@authforge/argon2`
-- `@authforge/sqlite`
-- `@authforge/webauthn-oslo`
-- `@authforge/express`
+- `@aeonkey/core`
+- `@aeonkey/argon2`
+- `@aeonkey/sqlite`
+- `@aeonkey/webauthn-oslo`
+- `@aeonkey/express`
 
-Live npm registry checks on July 5, 2026 returned `404 Not Found` for all package names above. Publishing still requires an npm account that can publish under the `@authforge` scope. If that scope is unavailable to the account, rename the packages before publishing.
+Live npm registry checks on July 5, 2026 returned `404 Not Found` for all package names above. Publishing requires an npm account or organization membership with publish rights under the `@aeonkey` scope.
 
 ## Recommended Path
 
@@ -38,6 +38,8 @@ Workflow filename: publish.yml
 Environment name: npm-publish
 Allowed actions: npm publish
 ```
+
+These are GitHub repository settings inside npm's Trusted Publisher form. The `Organization or user` field is the GitHub owner, not the npm scope owner.
 
 The environment name must be `npm-publish` because the workflow declares `environment: npm-publish`.
 
@@ -69,7 +71,7 @@ git tag v0.1.0
 git push origin v0.1.0
 ```
 
-The workflow publishes `@authforge/core` first because the other packages depend on it.
+The workflow publishes `@aeonkey/core` first because the other packages depend on it.
 
 If npm does not allow Trusted Publisher configuration before the first version exists, use a one-time granular access token with the smallest possible scope to bootstrap the packages, then immediately configure Trusted Publishing, disallow traditional tokens, and revoke the bootstrap token. The tag workflow is safe to run after a bootstrap publish because it skips package versions that already exist.
 

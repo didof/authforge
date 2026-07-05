@@ -1,6 +1,6 @@
 # Working Prompt
 
-Build AuthForge into a release-quality open-source TypeScript authentication toolkit that real developers can install, understand, run locally, test, and safely extend.
+Build AeonKey into a release-quality open-source TypeScript authentication toolkit that real developers can install, understand, run locally, test, and safely extend.
 
 ## Acceptance criteria
 

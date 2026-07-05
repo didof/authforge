@@ -1,28 +1,28 @@
 # Core API
 
-`@authforge/core` is framework-free. It exposes services and storage interfaces.
+`@aeonkey/core` is framework-free. It exposes services and storage interfaces.
 
 ## Accounts and High-Level Auth
 
-Use `AuthForgeService` when you want a complete password-auth flow over the lower-level primitives.
+Use `AeonKeyService` when you want a complete password-auth flow over the lower-level primitives.
 
 ```ts
 import {
-  AuthForgeService,
+  AeonKeyService,
   EmailVerificationService,
   PasswordResetService,
   RecoveryCodeService,
   SessionService,
   TotpService,
   createMemoryAuthStores,
-} from "@authforge/core";
-import { Argon2PasswordHasher } from "@authforge/argon2";
+} from "@aeonkey/core";
+import { Argon2PasswordHasher } from "@aeonkey/argon2";
 
 const stores = createMemoryAuthStores();
 const passwordHasher = new Argon2PasswordHasher();
 const sessions = new SessionService({ store: stores.sessions });
 
-const auth = new AuthForgeService({
+const auth = new AeonKeyService({
   accounts: stores.accounts,
   sessions,
   passwordHasher,
@@ -53,7 +53,7 @@ const login = await auth.loginWithPassword({
 });
 ```
 
-`AuthForgeService` exposes:
+`AeonKeyService` exposes:
 
 - `signupWithPassword`
 - `loginWithPassword`
@@ -70,12 +70,12 @@ const login = await auth.loginWithPassword({
 - `registerWebAuthnCredential`
 - `verifyWebAuthnAssertion`
 
-Memory stores are for development and tests. Use `@authforge/sqlite` or another durable adapter for real applications.
+Memory stores are for development and tests. Use `@aeonkey/sqlite` or another durable adapter for real applications.
 
 ## Sessions
 
 ```ts
-import { MemorySessionStore, SessionService } from "@authforge/core";
+import { MemorySessionStore, SessionService } from "@aeonkey/core";
 
 const sessions = new SessionService({
   store: new MemorySessionStore(),
@@ -91,7 +91,7 @@ const result = await sessions.validateToken(created.token);
 ## Password Policy
 
 ```ts
-import { checkPasswordStrength } from "@authforge/core";
+import { checkPasswordStrength } from "@aeonkey/core";
 
 const result = await checkPasswordStrength("correct horse battery staple", {
   policy: {
@@ -106,7 +106,7 @@ const result = await checkPasswordStrength("correct horse battery staple", {
 import {
   EmailVerificationService,
   MemoryEmailVerificationStore,
-} from "@authforge/core";
+} from "@aeonkey/core";
 
 const service = new EmailVerificationService({
   store: new MemoryEmailVerificationStore(),
@@ -127,7 +127,7 @@ await service.verifyCode("user-123", request.id, request.code);
 ## Password Reset
 
 ```ts
-import { MemoryPasswordResetStore, PasswordResetService } from "@authforge/core";
+import { MemoryPasswordResetStore, PasswordResetService } from "@aeonkey/core";
 
 const service = new PasswordResetService({
   store: new MemoryPasswordResetStore(),
@@ -142,8 +142,8 @@ const reset = await service.createSession({
 ## Recovery Codes
 
 ```ts
-import { Argon2PasswordHasher } from "@authforge/argon2";
-import { MemoryRecoveryCodeStore, RecoveryCodeService } from "@authforge/core";
+import { Argon2PasswordHasher } from "@aeonkey/argon2";
+import { MemoryRecoveryCodeStore, RecoveryCodeService } from "@aeonkey/core";
 
 const service = new RecoveryCodeService({
   store: new MemoryRecoveryCodeStore(),
@@ -162,7 +162,7 @@ import {
   MemoryTotpCredentialStore,
   TotpService,
   generateTotpCode,
-} from "@authforge/core";
+} from "@aeonkey/core";
 
 const service = new TotpService({
   store: new MemoryTotpCredentialStore(),
@@ -184,7 +184,7 @@ Production storage adapters should encrypt TOTP secrets at rest.
 import {
   EncryptedTotpCredentialStore,
   MemoryTotpCredentialStore,
-} from "@authforge/core";
+} from "@aeonkey/core";
 
 const encryptedStore = new EncryptedTotpCredentialStore({
   store: new MemoryTotpCredentialStore(),
@@ -195,7 +195,7 @@ const encryptedStore = new EncryptedTotpCredentialStore({
 ## Rate Limiting
 
 ```ts
-import { RefillingTokenBucket, Throttler } from "@authforge/core";
+import { RefillingTokenBucket, Throttler } from "@aeonkey/core";
 
 const ipBucket = new RefillingTokenBucket<string>(20, 1);
 const loginThrottler = new Throttler<string>([1, 2, 4, 8, 16, 30]);
@@ -204,8 +204,8 @@ const loginThrottler = new Throttler<string>([1, 2, 4, 8, 16, 30]);
 For durable rate limits, use `PersistentRefillingTokenBucket` with a `RateLimitStore`.
 
 ```ts
-import { PersistentRefillingTokenBucket } from "@authforge/core";
-import { SqliteAuthStore } from "@authforge/sqlite";
+import { PersistentRefillingTokenBucket } from "@aeonkey/core";
+import { SqliteAuthStore } from "@aeonkey/sqlite";
 
 const sqliteAuthStore = new SqliteAuthStore(db);
 const loginBucket = new PersistentRefillingTokenBucket({
@@ -228,7 +228,7 @@ The SQLite adapter stores rate buckets durably. It is still the application oper
 import {
   MemoryWebAuthnChallengeStore,
   WebAuthnChallengeService,
-} from "@authforge/core";
+} from "@aeonkey/core";
 
 const challenges = new WebAuthnChallengeService({
   store: new MemoryWebAuthnChallengeStore(),
@@ -242,8 +242,8 @@ The challenge service handles creation and single-use consumption.
 ## WebAuthn Verifier
 
 ```ts
-import { WebAuthnService } from "@authforge/core";
-import { OsloWebAuthnVerifier } from "@authforge/webauthn-oslo";
+import { WebAuthnService } from "@aeonkey/core";
+import { OsloWebAuthnVerifier } from "@aeonkey/webauthn-oslo";
 
 const service = new WebAuthnService({
   relyingParty: {

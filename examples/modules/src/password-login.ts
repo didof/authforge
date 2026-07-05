@@ -1,9 +1,9 @@
-import { Argon2PasswordHasher } from "@authforge/argon2";
+import { Argon2PasswordHasher } from "@aeonkey/argon2";
 import {
-  AuthForgeService,
+  AeonKeyService,
   SessionService,
   createMemoryAuthStores,
-} from "@authforge/core";
+} from "@aeonkey/core";
 
 const stores = createMemoryAuthStores();
 const sessions = new SessionService({ store: stores.sessions });
@@ -11,7 +11,7 @@ const passwordHasher = new Argon2PasswordHasher({
   memoryCost: 4096,
   timeCost: 1,
 });
-const auth = new AuthForgeService({
+const auth = new AeonKeyService({
   accounts: stores.accounts,
   sessions,
   passwordHasher,

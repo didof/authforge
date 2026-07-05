@@ -1,5 +1,5 @@
 {
-  "name": "@authforge/example-modules",
+  "name": "@aeonkey/example-modules",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -22,10 +22,10 @@
     "demo:webauthn-verifier": "node dist/webauthn-verifier.js"
   },
   "dependencies": {
-    "@authforge/argon2": "workspace:*",
-    "@authforge/core": "workspace:*",
-    "@authforge/sqlite": "workspace:*",
-    "@authforge/webauthn-oslo": "workspace:*",
+    "@aeonkey/argon2": "workspace:*",
+    "@aeonkey/core": "workspace:*",
+    "@aeonkey/sqlite": "workspace:*",
+    "@aeonkey/webauthn-oslo": "workspace:*",
     "better-sqlite3": "^11.10.0"
   },
   "devDependencies": {

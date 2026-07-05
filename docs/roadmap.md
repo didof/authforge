@@ -12,7 +12,7 @@
 ## Implemented for 0.1.0 Candidates
 
 - Account store contract and SQLite account table.
-- High-level `AuthForgeService` for signup, login, verification, reset, TOTP, recovery codes, and WebAuthn helpers.
+- High-level `AeonKeyService` for signup, login, verification, reset, TOTP, recovery codes, and WebAuthn helpers.
 - SQLite-backed rate-limit bucket store.
 - Signed double-submit CSRF helpers for Express.
 - Full local Express API demo backed by SQLite.

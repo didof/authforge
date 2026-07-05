@@ -1,6 +1,6 @@
 import Database from "better-sqlite3";
-import { PersistentRefillingTokenBucket } from "@authforge/core";
-import { SqliteAuthStore, createSqliteAuthSchema } from "@authforge/sqlite";
+import { PersistentRefillingTokenBucket } from "@aeonkey/core";
+import { SqliteAuthStore, createSqliteAuthSchema } from "@aeonkey/sqlite";
 
 const db = new Database(":memory:");
 createSqliteAuthSchema(db);

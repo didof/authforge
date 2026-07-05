@@ -12,7 +12,7 @@ import {
   type SessionService,
   type StoredSession,
   type WebAuthnChallengeService,
-} from "@authforge/core";
+} from "@aeonkey/core";
 
 export interface CsrfOptions {
   secret: string;
