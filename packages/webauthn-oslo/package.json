@@ -1,0 +1,55 @@
+{
+  "name": "@authforge/webauthn-oslo",
+  "version": "0.1.0",
+  "description": "Oslo-backed WebAuthn verifier for AuthForge.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/didof/authforge.git",
+    "directory": "packages/webauthn-oslo"
+  },
+  "bugs": {
+    "url": "https://github.com/didof/authforge/issues"
+  },
+  "homepage": "https://github.com/didof/authforge/tree/main/packages/webauthn-oslo#readme",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "authentication",
+    "auth",
+    "webauthn",
+    "passkeys",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@authforge/core": "workspace:*",
+    "@oslojs/crypto": "^1.0.1",
+    "@oslojs/webauthn": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.9"
+  }
+}

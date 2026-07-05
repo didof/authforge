@@ -1,0 +1,42 @@
+import { Argon2PasswordHasher } from "@authforge/argon2";
+import {
+  AuthForgeService,
+  SessionService,
+  createMemoryAuthStores,
+} from "@authforge/core";
+
+const stores = createMemoryAuthStores();
+const sessions = new SessionService({ store: stores.sessions });
+const passwordHasher = new Argon2PasswordHasher({
+  memoryCost: 4096,
+  timeCost: 1,
+});
+const auth = new AuthForgeService({
+  accounts: stores.accounts,
+  sessions,
+  passwordHasher,
+  accountIdGenerator: () => "user-123",
+});
+
+const signup = await auth.signupWithPassword({
+  email: "User@example.com",
+  password: "correct horse battery staple",
+  createSession: false,
+});
+const login = await auth.loginWithPassword({
+  email: "user@example.com",
+  password: "correct horse battery staple",
+});
+const wrongPassword = await auth.loginWithPassword({
+  email: "user@example.com",
+  password: "wrong password",
+});
+
+console.log({
+  module: "password-login",
+  signupOk: signup.ok,
+  normalizedEmail: signup.ok ? signup.value.user.email : null,
+  loginOk: login.ok,
+  sessionCreated: login.ok,
+  wrongPasswordRejected: !wrongPassword.ok,
+});

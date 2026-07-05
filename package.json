@@ -1,0 +1,35 @@
+{
+  "name": "authforge-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/didof/authforge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/didof/authforge/issues"
+  },
+  "homepage": "https://github.com/didof/authforge#readme",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "pnpm --filter @authforge/core build && pnpm --filter @authforge/argon2 build && pnpm --filter @authforge/sqlite build && pnpm --filter @authforge/webauthn-oslo build && pnpm --filter @authforge/express build && pnpm --filter @authforge/example-express build && pnpm --filter @authforge/example-modules build",
+    "check": "pnpm --filter @authforge/core check && pnpm --filter @authforge/core build && pnpm --filter @authforge/argon2 check && pnpm --filter @authforge/argon2 build && pnpm --filter @authforge/sqlite check && pnpm --filter @authforge/sqlite build && pnpm --filter @authforge/webauthn-oslo check && pnpm --filter @authforge/webauthn-oslo build && pnpm --filter @authforge/express check && pnpm --filter @authforge/express build && pnpm --filter @authforge/example-express check && pnpm --filter @authforge/example-modules check",
+    "test": "pnpm build && pnpm -r test",
+    "audit": "pnpm audit --audit-level moderate",
+    "demo:modules": "pnpm build && pnpm --filter @authforge/example-modules demo:all",
+    "pack:packages": "pnpm build && mkdir -p artifacts && pnpm -C packages/core pack --pack-destination ../../artifacts && pnpm -C packages/argon2 pack --pack-destination ../../artifacts && pnpm -C packages/sqlite pack --pack-destination ../../artifacts && pnpm -C packages/webauthn-oslo pack --pack-destination ../../artifacts && pnpm -C packages/express pack --pack-destination ../../artifacts",
+    "verify:release": "pnpm check && pnpm test && pnpm audit && pnpm demo:modules && pnpm run pack:packages",
+    "format": "prettier -w ."
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "vite": "^6.4.3",
+    "vitest": "^4.1.9"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "name": "@authforge/core",
+  "version": "0.1.0",
+  "description": "Framework-free authentication primitives for TypeScript applications.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/didof/authforge.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/didof/authforge/issues"
+  },
+  "homepage": "https://github.com/didof/authforge/tree/main/packages/core#readme",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "authentication",
+    "auth",
+    "2fa",
+    "webauthn",
+    "passkeys",
+    "sessions",
+    "totp",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.9"
+  }
+}

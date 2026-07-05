@@ -1,0 +1,37 @@
+{
+  "name": "@authforge/example-modules",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "demo:all": "pnpm demo:sessions && pnpm demo:passwords && pnpm demo:password-login && pnpm demo:email-verification && pnpm demo:password-reset && pnpm demo:recovery-codes && pnpm demo:totp && pnpm demo:rate-limits && pnpm demo:durable-rate-limits && pnpm demo:two-factor && pnpm demo:webauthn-challenges && pnpm demo:webauthn-verifier",
+    "demo:sessions": "node dist/sessions.js",
+    "demo:passwords": "node dist/passwords.js",
+    "demo:password-login": "node dist/password-login.js",
+    "demo:email-verification": "node dist/email-verification.js",
+    "demo:password-reset": "node dist/password-reset.js",
+    "demo:recovery-codes": "node dist/recovery-codes.js",
+    "demo:totp": "node dist/totp.js",
+    "demo:rate-limits": "node dist/rate-limits.js",
+    "demo:durable-rate-limits": "node dist/durable-rate-limits.js",
+    "demo:two-factor": "node dist/two-factor.js",
+    "demo:webauthn-challenges": "node dist/webauthn-challenges.js",
+    "demo:webauthn-verifier": "node dist/webauthn-verifier.js"
+  },
+  "dependencies": {
+    "@authforge/argon2": "workspace:*",
+    "@authforge/core": "workspace:*",
+    "@authforge/sqlite": "workspace:*",
+    "@authforge/webauthn-oslo": "workspace:*",
+    "better-sqlite3": "^11.10.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.9"
+  }
+}
