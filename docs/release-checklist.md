@@ -12,6 +12,8 @@
 - [x] Tests cover accounts, sessions, password policy, OTP, rate limits, and reset flows.
 - [x] Package metadata includes license, exports, files, engines, publish config, and side effects.
 - [x] Package metadata includes real repository URLs for `didof/authforge`.
+- [x] GitHub Actions Trusted Publishing workflow exists with OIDC permissions and no npm token secret requirement.
+- [ ] npm Trusted Publisher entries are configured for all five packages.
 - [ ] WebAuthn positive-path fixture tests exist.
 
 ## Current 0.1.0 Preflight
