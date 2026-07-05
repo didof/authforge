@@ -52,8 +52,20 @@ jobs:
           set -euo pipefail
           VERSION="$(node -p "require('./packages/core/package.json').version")"
 
-          npm publish "./artifacts/authforge-core-${VERSION}.tgz" --access public
-          npm publish "./artifacts/authforge-argon2-${VERSION}.tgz" --access public
-          npm publish "./artifacts/authforge-sqlite-${VERSION}.tgz" --access public
-          npm publish "./artifacts/authforge-webauthn-oslo-${VERSION}.tgz" --access public
-          npm publish "./artifacts/authforge-express-${VERSION}.tgz" --access public
+          publish_if_needed() {
+            local package_name="$1"
+            local tarball="$2"
+
+            if npm view "${package_name}@${VERSION}" version >/dev/null 2>&1; then
+              echo "${package_name}@${VERSION} already exists; skipping"
+              return 0
+            fi
+
+            npm publish "${tarball}" --access public
+          }
+
+          publish_if_needed "@authforge/core" "./artifacts/authforge-core-${VERSION}.tgz"
+          publish_if_needed "@authforge/argon2" "./artifacts/authforge-argon2-${VERSION}.tgz"
+          publish_if_needed "@authforge/sqlite" "./artifacts/authforge-sqlite-${VERSION}.tgz"
+          publish_if_needed "@authforge/webauthn-oslo" "./artifacts/authforge-webauthn-oslo-${VERSION}.tgz"
+          publish_if_needed "@authforge/express" "./artifacts/authforge-express-${VERSION}.tgz"

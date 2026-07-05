@@ -22,6 +22,7 @@ The workflow:
 - uses Node 24 and npm `^11.5.1`
 - runs `pnpm run verify:release`
 - publishes the generated tarballs in dependency order
+- skips any package whose exact version already exists on npm, which makes reruns and one-time bootstrap publishes safe
 
 GitHub Actions standard hosted runners are free for public repositories. Private repositories have account-plan quotas and billing rules.
 
@@ -70,7 +71,7 @@ git push origin v0.1.0
 
 The workflow publishes `@authforge/core` first because the other packages depend on it.
 
-If npm does not allow Trusted Publisher configuration before the first version exists, use a one-time granular access token with the smallest possible scope to bootstrap the packages, then immediately configure Trusted Publishing, disallow traditional tokens, and revoke the bootstrap token.
+If npm does not allow Trusted Publisher configuration before the first version exists, use a one-time granular access token with the smallest possible scope to bootstrap the packages, then immediately configure Trusted Publishing, disallow traditional tokens, and revoke the bootstrap token. The tag workflow is safe to run after a bootstrap publish because it skips package versions that already exist.
 
 ## Versioning
 
